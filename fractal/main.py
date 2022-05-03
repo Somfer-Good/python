@@ -48,6 +48,10 @@ def choice():
 
 
 def game():
+    X.clear()
+    Y.clear()
+    X1.clear()
+    Y1.clear()
     for i in range(1, 10000):
         x = random.random() * 10000
         y = random.random() * 10000
@@ -66,13 +70,14 @@ def game():
         else:
             x = A[4][0][0] * x + A[4][0][1] * y + b[4][0]
             y = A[4][1][0] * x + A[4][1][1] * y + b[4][1]
-        X.append(x)
-        Y.append(y)
+        X1.append(x)
+        Y1.append(y)
 
 
 def saveImage(x1, y1, x2, y2):
     plt.grid()
-    plt.plot(X, Y, color='red')
+    ax.scatter(X, Y, c='r', s=1)
+    ax.scatter(X1, Y1, c='b', s=1)
     if flagScaling:
         plt.xlim(x1, x2)
         plt.ylim(y1, y2)
@@ -120,7 +125,9 @@ def changeOptions(dopSelect):
 
 def scaling(scX1, scY1, scX2, scY2):
     plt.grid()
-    plt.plot(X, Y, color='red')
+    ax.scatter(X, Y, c='r', s=1)
+    ax.scatter(X1, Y1, c='b', s=1)
+
     plt.xlim(scX1, scX2)
     plt.ylim(scY1, scY2)
     plt.show()
@@ -128,6 +135,8 @@ def scaling(scX1, scY1, scX2, scY2):
 
 X = []
 Y = []
+X1 = []
+Y1 = []
 x1 = 0
 x2 = 0
 y1 = 0
@@ -135,7 +144,11 @@ y2 = 0
 flagGame = False
 exit = True
 flagScaling = False
+flagNew=True
 while (exit):
+    fig, ax = plt.subplots()
+    fig.set_figwidth(8)
+    fig.set_figheight(8)
     print('Для продожений нажмите Enter')
     input()
     system('clear')
@@ -143,11 +156,12 @@ while (exit):
     print('Выберете действие:', end='')
     select = int(input())
     if select == 1:
-        X = []
-        Y = []
-        game()
+        if flagNew:
+            game()
+        flagNew=False
         plt.grid()
-        plt.plot(X, Y, color='red')
+        ax.scatter(X, Y, c='r', s=1)
+        ax.scatter(X1, Y1, c='b', s=1)
         plt.show()
         flagGame = True
     elif select == 2:
@@ -160,6 +174,7 @@ while (exit):
         print('Выберете действие:', end='')
         dopSelect = int(input())
         changeOptions(dopSelect)
+        flagNew = True
     elif select == 4:
         if not flagGame:
             print('Сначала сыграйте')
