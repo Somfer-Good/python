@@ -13,8 +13,8 @@ A = {
 b = {
     1: [0, 0],
     2: [0.206, 0.254],
-    3: [0.138, 0.175],
-    4: [0.68, 0.083]
+    3: [0, 0],
+    4: [0, 0]
 }
 
 
@@ -52,26 +52,28 @@ def game():
     Y.clear()
     X1.clear()
     Y1.clear()
+    x = random.random()
+    y = random.random()
+    X.append(x)
+    Y.append(y)
     for i in range(1, 10000):
-        x = random.random() * 10000
-        y = random.random() * 10000
-        X.append(x)
-        Y.append(y)
-        p = random.random() * 100
+        p = random.randint(1, 100)
         if p == 1:
-            x = A[1][0][0] * x + A[1][0][1] * y + b[1][0]
-            y = A[1][1][0] * x + A[1][1][1] * y + b[1][1]
+            x1 = A[1][0][0] * x + A[1][0][1] * y + b[1][0]
+            y1 = A[1][1][0] * x + A[1][1][1] * y + b[1][0]
         elif 1 < p <= 72:
-            x = A[2][0][0] * x + A[2][0][1] * y + b[2][0]
-            y = A[2][1][0] * x + A[2][1][1] * y + b[2][1]
+            x1 = A[2][0][0] * x + A[2][0][1] * y + b[2][0]
+            y1 = A[2][1][0] * x + A[2][1][1] * y + b[2][1]
         elif 72 < p <= 86:
-            x = A[3][0][0] * x + A[3][0][1] * y + b[3][0]
-            y = A[3][1][0] * x + A[3][1][1] * y + b[3][1]
+            x1 = A[3][0][0] * x + A[3][0][1] * y + b[3][0]
+            y1 = A[3][1][0] * x + A[3][1][1] * y + b[3][0]
         else:
-            x = A[4][0][0] * x + A[4][0][1] * y + b[4][0]
-            y = A[4][1][0] * x + A[4][1][1] * y + b[4][1]
-        X1.append(x)
-        Y1.append(y)
+            x1 = A[4][0][0] * x + A[4][0][1] * y + b[4][0]
+            y1 = A[4][1][0] * x + A[4][1][1] * y + b[4][0]
+        X.append(x1)
+        Y.append(y1)
+        x = x1
+        y = y1
 
 
 def saveImage(x1, y1, x2, y2):
@@ -93,7 +95,7 @@ def changeOptions(dopSelect):
             str = input()
             arr = str.split(' ')
             if len(arr) == 4:
-                A[ch] = [[int(arr[0]), int(arr[1])], [int(arr[2]), int(arr[3])]]
+                A[ch] = [[float(arr[0]), float(arr[1])], [float(arr[2]), float(arr[3])]]
                 print('Параметры успешно изменены')
                 printA()
             else:
@@ -110,7 +112,7 @@ def changeOptions(dopSelect):
             str = input()
             arr = str.split(' ')
             if len(arr) == 2:
-                b[ch] = [int(arr[0]), int(arr[1])]
+                b[ch] = [float(arr[0]), float(arr[1])]
                 print('Параметры успешно изменены')
                 printb()
             else:
@@ -125,9 +127,8 @@ def changeOptions(dopSelect):
 
 def scaling(scX1, scY1, scX2, scY2):
     plt.grid()
-    ax.scatter(X, Y, c='r', s=1)
-    ax.scatter(X1, Y1, c='b', s=1)
-
+    ax.scatter(X, Y, c='r', s=2)
+    ax.scatter(X1, Y1, c='b', s=2)
     plt.xlim(scX1, scX2)
     plt.ylim(scY1, scY2)
     plt.show()
@@ -144,7 +145,7 @@ y2 = 0
 flagGame = False
 exit = True
 flagScaling = False
-flagNew=True
+flagNew = True
 while (exit):
     fig, ax = plt.subplots()
     fig.set_figwidth(8)
@@ -158,7 +159,7 @@ while (exit):
     if select == 1:
         if flagNew:
             game()
-        flagNew=False
+        flagNew = False
         plt.grid()
         ax.scatter(X, Y, c='r', s=1)
         ax.scatter(X1, Y1, c='b', s=1)
@@ -181,12 +182,22 @@ while (exit):
             continue
         print('Введите область по X: ', end='')
         strx = input()
-        x1 = int(strx.split(' ')[0])
-        x2 = int(strx.split(' ')[1])
+        arrX = strx.split(' ')
+        if len(arrX) == 2:
+            x1 = float(arrX[0])
+            x2 = float(arrX[1])
+        else:
+            print('Неверное количество значений')
+            continue
         print('Введите область по Y: ', end='')
-        strx = input()
-        y1 = int(strx.split(' ')[0])
-        y2 = int(strx.split(' ')[1])
+        stry = input()
+        arrY = stry.split(' ')
+        if len(arrY) == 2:
+            y1 = float(arrY[0])
+            y2 = float(arrY[1])
+        else:
+            print('Неверное количество значений')
+            continue
         scaling(x1, y1, x2, y2)
         flagScaling = True
     elif select == 5:
