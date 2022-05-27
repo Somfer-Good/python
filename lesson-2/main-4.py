@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def isGreater(str1, str2):
     minLength = min(len(str1),len(str2))
     for i in range(minLength):
@@ -13,18 +16,20 @@ def isGreater(str1, str2):
     else:
         return minLength == len(str1)
 
-def sort(list, f):
-    for i in range(len(list) - 1):
-        for j in range(len(list) - i - 1):
-            if f(list[j], list[j + 1]):
-                list[j], list[j + 1] = list[j + 1], list[j]
 
-def maxNumberMadeConstructedList(list):
-    sort(list, isGreater)
-    list.reverse()
+def sort(arr, f):
+    for i in range(len(arr) - 1):
+        for j in range(len(arr) - i - 1):
+            if f(arr[j], arr[j + 1]):
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+
+def maxNumberMadeConstructedList(arr):
+    sort(arr, isGreater)
+    arr=arr.reverse()
     str = ""
-    for elm in list:
-        str += elm
+    for i in range(n):
+        str += arr[i]
     return str
 
 
