@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def isGreater(str1, str2):
     minLength = min(len(str1),len(str2))
     for i in range(minLength):
@@ -26,10 +23,10 @@ def sort(arr, f):
 
 def maxNumberMadeConstructedList(arr):
     sort(arr, isGreater)
-    arr=arr.reverse()
+    arr.reverse()
     str = ""
-    for i in range(n):
-        str += arr[i]
+    for i in arr:
+        str+=i
     return str
 
 
